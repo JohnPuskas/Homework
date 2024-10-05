@@ -7,24 +7,35 @@ const pizzaToppings = [
 ];
 
 function greetCustomer(toppings) {
-  let allToppingString = "";
-  for (let topping of toppings) {
-    allToppingString += `${topping}, `;
-  }
+  const toppingForLog = listToppings(toppings);
+
   console.log(
-    `Welcome to House of Pizza! Our pizza toppings are: ${allToppingString}`
+    `Welcome to House of Pizza! Our pizza toppings are: ${toppingForLog}.`
   );
 }
 
 function getPizzaOrder(size, crust, ...toppings) {
-  let toppingsString = "";
   for (let topping of toppings) {
-    toppingsString += `${topping}, `;
+    if (!pizzaToppings.includes(topping)) {
+      console.log(
+        `We don't have ${topping}. Please order again or you're not getting any toppings`
+      );
+      // ! I think I would want to do something else right here.
+      // ! I settled for just ending execution of the function by returning an empty string.
+      return "";
+    }
   }
 
-  console.log(
-    `One ${size} ${crust} crust pizza with ${toppingsString}coming up!`
-  );
+  let toppingForLog = listToppings(toppings);
+
+  if (toppingForLog == "") {
+    toppingForLog = "cheese";
+    console.log(`One ${size} ${crust} crust ${toppingForLog} pizza coming up!`);
+  } else {
+    console.log(
+      `One ${size} ${crust} crust pizza with ${toppingForLog} coming up!`
+    );
+  }
 
   const pizzaDetails = [size, crust, toppings];
   // ? WHY does the below line print out 'object' as typeof? When I print the return value it is array!
@@ -60,22 +71,41 @@ function preparePizza(pizzaOrder) {
 }
 
 function servePizza(pizzaObject) {
-  let toppingsString = "";
   const toppingsArray = pizzaObject.toppings;
-  for (let topping of toppingsArray) {
-    toppingsString += `${topping}, `;
+
+  let toppingForLog = listToppings(toppingsArray);
+
+  if (toppingForLog == "") {
+    toppingForLog = "cheese";
+    console.log(
+      `Order up! Here's your ${pizzaObject.size} ${pizzaObject.crust} crust ${toppingForLog} pizza. Enjoy!`
+    );
+  } else {
+    console.log(
+      `Order up! Here's your ${pizzaObject.size} ${pizzaObject.crust} crust pizza with ${toppingForLog}. Enjoy!`
+    );
   }
 
-  console.log(
-    `Order up! Here's your ${pizzaObject.size} ${pizzaObject.crust} crust pizza with ${toppingsString}Enjoy!`
-  );
   return pizzaObject;
+}
+
+function listToppings(toppings) {
+  let toppingsString = "";
+  for (let i = 0; i < toppings.length; i++) {
+    let topping = toppings[i];
+    if (i < toppings.length - 1) {
+      toppingsString += `${topping}, `;
+    } else {
+      toppingsString += `and ${topping}`;
+    }
+  }
+  return toppingsString;
 }
 
 greetCustomer(pizzaToppings);
 
 servePizza(
   preparePizza(
-    getPizzaOrder("medium", "thin", "pepperoni", "mushroom", "onions")
+    getPizzaOrder("medium", "thin", "pepperoni", "mushrooms", "onions")
   )
 );
