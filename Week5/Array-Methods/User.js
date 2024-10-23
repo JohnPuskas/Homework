@@ -232,9 +232,10 @@ const people = [
 ];
 
 // create and print a list of phone numbers
-people.forEach(person => console.log(person.phone));
+// people.forEach(person => console.log(person.phone));
+let phoneNumberList = people.map(person => person.phone);
+console.log(phoneNumberList);
 
 // create and print a list of website and email pairs (pair them in a string, array, or object)
-people.map(person => {
-  console.log(`website: ${person.website}, email: ${person.email}`);
-});
+let websiteEmailList = people.map(person => [person.website, person.email]);
+console.log(websiteEmailList);

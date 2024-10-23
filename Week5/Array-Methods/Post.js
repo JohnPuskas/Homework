@@ -357,17 +357,14 @@ const userPosts = [
 ];
 
 // create a list of user 5's posts
-let userFivePosts = userPosts.filter(userPost => userPost.userId === 5);
+const userFivePosts = userPosts.filter(userPost => userPost.userId === 5);
 console.log(userFivePosts);
 
 // then, create a list of title and body pairs
-const TitlesAndBodies = {};
-
-userFivePosts.forEach(userFivePost => {
+const TitlesAndBodies = userFivePosts.map(userFivePost => {
   let title = userFivePost.title;
   let body = userFivePost.body;
-  TitlesAndBodies["title"] = title;
-  TitlesAndBodies["body"] = body;
+  return { title, body };
 });
 
 console.log(TitlesAndBodies);
